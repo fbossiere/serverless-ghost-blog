@@ -1,0 +1,26 @@
+# Environment variables (contains sensitive passwords)
+.env
+.scaleway_credentials
+
+# Terraform files (may contain sensitive data)
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# SSL certificates
+ssl/
+
+# Nginx logs
+*.log
+
+# Backup files
+backups/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
