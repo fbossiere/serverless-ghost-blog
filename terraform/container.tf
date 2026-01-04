@@ -32,8 +32,14 @@ resource "scaleway_container" "ghost" {
     "storage__s3__assetHost"         = "https://${scaleway_object_bucket.content.name}.s3.${var.region}.scw.cloud"
     
     "logging__level"                 = "debug"
-    "mail__from"                     = var.mail_from_address != "" ? var.mail_from_address : (var.custom_domain != "" ? "noreply@${var.custom_domain}" : "noreply@${var.app_name}-${scaleway_container_namespace.main.id}.functions.fnc.${var.region}.scw.cloud")
     
+    "mail__from"                 = "\"${var.mail_from_name}\" <${var.mail_from_email}>"
+    "mail__transport"            = "SMTP"
+    "mail__options__host"        = var.mail_smtp_host
+    "mail__options__port"        = var.mail_smtp_port
+    "mail__options__secure"      = var.mail_smtp_secure
+    "mail__options__auth__user"  = var.mail_smtp_user
+
     "activitypub__enabled"           = "false"
     "session__secure"                = "true"
     "session__sameSite"              = "Lax"
@@ -47,6 +53,7 @@ resource "scaleway_container" "ghost" {
     "database__connection__password" = local.db_app_password
     "storage__s3__accessKeyId"       = scaleway_iam_api_key.ghost_s3_key.access_key
     "storage__s3__secretAccessKey"   = scaleway_iam_api_key.ghost_s3_key.secret_key
+    "mail__options__auth__pass"      = base64decode(scaleway_secret_version.smtp_password.data)
   }
   
   # Ensure DB, Bucket exist and Image is pushed before deploying container
@@ -56,6 +63,7 @@ resource "scaleway_container" "ghost" {
     scaleway_rdb_privilege.ghost_access,
     scaleway_object_bucket.content,
     scaleway_iam_policy.ghost_s3_policy,
+    scaleway_secret_version.smtp_password,
     null_resource.docker_push
   ]
 }

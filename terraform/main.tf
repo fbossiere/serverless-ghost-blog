@@ -161,6 +161,16 @@ resource "scaleway_secret_version" "s3_secret_key" {
   data      = scaleway_iam_api_key.ghost_s3_key.secret_key
 }
 
+resource "scaleway_secret" "smtp_password" {
+  name        = "${var.app_name}-smtp-password"
+  description = "Ghost SMTP Password"
+}
+
+resource "scaleway_secret_version" "smtp_password" {
+  secret_id = scaleway_secret.smtp_password.id
+  data      = var.mail_smtp_password
+}
+
 # --- VPC Private Network ---
 resource "scaleway_vpc_private_network" "main" {
   name = "${var.project_name}-pn"

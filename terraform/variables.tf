@@ -51,8 +51,44 @@ variable "custom_domain" {
   default     = ""
 }
 
-variable "mail_from_address" {
-  description = "Email address for sending Ghost emails (e.g., noreply@blog.example.com). If empty, will be auto-generated."
+variable "mail_from_name" {
+  description = "Display name for outgoing emails"
   type        = string
-  default     = ""
+  default     = "My Ghost Blog"
+}
+
+variable "mail_from_email" {
+  description = "Email address for outgoing emails"
+  type        = string
+  default     = "noreply@blog.example.com"
+}
+
+variable "mail_smtp_host" {
+  description = "SMTP server hostname"
+  type        = string
+  default     = "smtp.mailgun.org"
+}
+
+variable "mail_smtp_port" {
+  description = "SMTP server port"
+  type        = string
+  default     = "587"
+}
+
+variable "mail_smtp_secure" {
+  description = "Use TLS/SSL for SMTP (false for STARTTLS on 587)"
+  type        = string
+  default     = "false"
+}
+
+variable "mail_smtp_user" {
+  description = "SMTP authentication username"
+  type        = string
+  default     = "postmaster@mg.example.com"
+}
+
+variable "mail_smtp_password" {
+  description = "SMTP authentication password"
+  type        = string
+  sensitive   = true
 }

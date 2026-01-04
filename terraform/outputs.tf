@@ -36,6 +36,7 @@ output "secret_ids" {
     db_password   = scaleway_secret.db_password.id
     s3_access_key = scaleway_secret.s3_access_key.id
     s3_secret_key = scaleway_secret.s3_secret_key.id
+    smtp_password = scaleway_secret.smtp_password.id
   }
   description = "IDs of the secrets stored in Scaleway Secret Manager"
 }

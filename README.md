@@ -528,9 +528,19 @@ The serverless container is configured with the following Ghost settings:
 
 **Mail Configuration**:
 
-- `mail__from` - Sender email address for Ghost notifications
-  - If not specified: Auto-generates based on custom domain or default container URL
-  - Example: `"noreply@blog.example.com"`
+Ghost uses SMTP for sending emails (user invitations, password resets, etc.). The mail configuration is managed through Terraform variables and the SMTP password is securely stored in Scaleway Secret Manager.
+
+**Variables** (configured in [`terraform.tfvars`](terraform/terraform.tfvars)):
+
+- [`mail_from_name`](terraform/variables.tf:60) - Display name for outgoing emails (e.g., "My Ghost Blog")
+- [`mail_from_email`](terraform/variables.tf:65) - Email address for outgoing emails (e.g., "noreply@blog.example.com")
+- [`mail_smtp_host`](terraform/variables.tf:70) - SMTP server hostname (e.g., "smtp.eu.mailgun.org")
+- [`mail_smtp_port`](terraform/variables.tf:75) - SMTP server port (typically "587" for STARTTLS)
+- [`mail_smtp_secure`](terraform/variables.tf:80) - Use TLS/SSL ("false" for STARTTLS on port 587)
+- [`mail_smtp_user`](terraform/variables.tf:85) - SMTP authentication username
+- [`mail_smtp_password`](terraform/variables.tf:90) - SMTP authentication password (stored in Scaleway Secret Manager)
+
+**Security**: The SMTP password is automatically stored in Scaleway Secret Manager via [`scaleway_secret.smtp_password`](terraform/main.tf:163) and securely injected into the container as [`mail__options__auth__pass`](terraform/container.tf:56).
 
 **Database & Storage**:
 

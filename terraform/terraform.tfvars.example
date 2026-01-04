@@ -6,7 +6,15 @@ region        = "fr-par"                     # Options: fr-par, nl-ams, pl-waw
 zone          = "fr-par-1"
 app_name      = "ghost-blog"
 custom_domain = ""                           # e.g., "blog.example.com" - leave empty to use default container URL
-mail_from_address = ""
+
+# Mail Configuration
+mail_from_name     = "My Ghost Blog"
+mail_from_email    = "noreply@blog.example.com"
+mail_smtp_host     = "smtp.mailgun.org"
+mail_smtp_port     = "587"
+mail_smtp_secure   = "false"                 # false for STARTTLS on port 587
+mail_smtp_user     = "postmaster@mg.example.com"
+mail_smtp_password = "your-smtp-password"    # REQUIRED: Set this in terraform.tfvars (gitignored)
 
 # API Keys - REQUIRED
 # Get your API keys from: https://console.scaleway.com/project/credentials
