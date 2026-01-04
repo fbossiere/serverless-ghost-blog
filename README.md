@@ -159,11 +159,36 @@ nano terraform.tfvars
 Edit the values:
 
 ```hcl
-project_id    = "your-project-id"                        # Find at: https://console.scaleway.com/project/settings
-region        = "fr-par"                                 # Choose: fr-par, nl-ams, pl-waw
-zone          = "fr-par-1"                               # Match your region
-app_name      = "ghost-blog"                             # Your app name (used for resource naming)
-custom_domain = "blog.example.com"                       # Your domain (or leave empty for default URL)
+# Scaleway Project Configuration
+organization_id = "your-organization-id"    # Get from: https://console.scaleway.com/project/settings
+project_id      = "your-scaleway-project-id"  # Get from: https://console.scaleway.com/project/settings
+project_name    = "ghost-blog"
+region          = "fr-par"                     # Options: fr-par, nl-ams, pl-waw
+zone            = "fr-par-1"
+app_name        = "ghost-blog"
+custom_domain   = ""                           # e.g., "blog.example.com" - leave empty to use default container URL
+
+# Mail Configuration
+mail_from_name     = "My Ghost Blog"
+mail_from_email    = "noreply@blog.example.com"
+mail_smtp_host     = "smtp.mailgun.org"
+mail_smtp_port     = "587"
+mail_smtp_secure   = "false"                 # false for STARTTLS on port 587
+mail_smtp_user     = "postmaster@mg.example.com"
+mail_smtp_password = "your-smtp-password"    # REQUIRED: Set this in terraform.tfvars (gitignored)
+
+# API Keys - REQUIRED
+# Get your API keys from: https://console.scaleway.com/project/credentials
+# Set these as environment variables (NEVER commit actual keys to git):
+#
+#   export SCW_ACCESS_KEY="your-access-key-id"
+#   export TF_VAR_scw_secret_key="your-secret-key"
+#
+# Note: Terraform provider uses SCW_ACCESS_KEY from environment
+# Note: scw_secret_key is needed for Docker registry login
+
+# Optional: Custom Database Password
+# db_password = "optional-custom-password" # Leave commented to auto-generate secure password
 ```
 
 #### **Step 3: Initialize and Deploy Infrastructure** ⏱️ 10-15 minutes
